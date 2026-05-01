@@ -18,7 +18,34 @@ Os dados foram obtidos a partir de arquivos CSV armazenados no Google Cloud Stor
 ## Consultas SQL
 Esta consulta cria uma tabela externa no BigQuery a partir de um arquivo CSV armazenado no Google Cloud Storage. Os dados são carregados diretamente do bucket, contendo informações de filmes como identificador, título e gêneros. A configuração permite ignorar o cabeçalho do arquivo e tratar possíveis inconsistências no formato, como linhas incompletas ou com quebras de linha dentro de campos.
 <img width="643" height="256" alt="{43B8D467-39DE-47D1-8684-D550E6725EAB}" src="https://github.com/user-attachments/assets/556b44e8-f630-476b-9a59-d19c7cd658c1" />
+## Transformações e Modelagem dos Dados
+Após a criação das tabelas externas na camada *raw*, foram desenvolvidas consultas SQL no BigQuery com o objetivo de transformar, limpar e estruturar os dados para análise.
 
+Essas consultas incluíram:
+- Conversão de tipos de dados (como timestamps e ratings)
+- Tratamento de valores inconsistentes ou ausentes  
+- Padronização de colunas para facilitar a modelagem  
+
+### Modelagem Analítica (Fato e Dimensão)
+A partir dos dados tratados, foi aplicada uma modelagem analítica baseada em tabelas fato e dimensão.
+- **Tabelas dimensão** foram utilizadas para armazenar informações descritivas, como dados de filmes (título, gênero)  
+- **Tabelas fato** concentraram eventos transacionais, como avaliações realizadas pelos usuários ao longo do tempo  
+Essa estrutura permitiu maior eficiência nas consultas e melhor organização para consumo no dashboard.
+
+### Criação de Views Analíticas
+Foram criadas *views* no BigQuery para facilitar a análise e servir como base para o dashboard no Metabase. Essas views realizam agregações e cálculos importantes, como:
+- Total de avaliações por período (ano e mês)  
+- Distribuição de ratings por gênero  
+- Relação entre popularidade (volume de avaliações) e qualidade (nota média)  
+Essas abstrações simplificam o acesso aos dados e evitam a repetição de lógica nas visualizações.
+
+### Suporte às Visualizações
+As consultas SQL foram desenvolvidas com foco em atender diretamente às necessidades do dashboard, garantindo que os dados já estivessem agregados e prontos para visualização.
+Isso possibilitou a construção de gráficos como:
+- Heatmaps temporais  
+- Rankings de gêneros  
+- Análises comparativas entre filmes  
+- Comportamento de usuários  
 
 ## Ferramentas Utilizadas
 - **BigQuery**: para o armazenamento, processamento e consultas em larga escala.
